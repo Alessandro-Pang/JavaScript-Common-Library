@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="scorllTable.js"></script>
+</head>
+
+<body>
+    <div id="app" style="width:45%;height:300px;"></div>
+    <script>
+        $.ajax({
+            url: 'data.json',
+            type: 'GET',
+            dataType: 'JSON',
+            success: function(datas) {
+                dynamicTable({
+                    el: '#app',
+                    rowNum: 5,
+                    timeout: 3,
+                    header: datas.header,
+                    data: datas.data,
+                    index: true,
+                    fontColor: 'white ',
+                    indexBGC: '#5af',
+                    headerBGC: '#1981f6',
+                    oddRowBGC: 'rgba(0, 94, 181)',
+                    evenRowBGC: 'rgba(30, 155, 255)',
+                    colWidth: ['25', '100', '100', '80', '80px', '100px', '100px']
+                });
+            },
+            error: function(e) {
+                console.log(e)
+            }
+        })
+    </script>
+</body>
