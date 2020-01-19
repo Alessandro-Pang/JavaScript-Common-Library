@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery.js"></script>
+</head>
+
+<body>
+
+    <div class="menu-icon" author="pcy"></div>
+
+    <script>
+        function movable_icon_menu(ele) {
+            let eleCss = {
+                position: 'absolute',
+                top: '0',
+                left: '0',
+                margin: "0"
+            }
+
+            let qele = document.querySelector(ele);
+            let canvas = document.createElement('canvas');
+            qele.append(canvas);
+            $(qele).css(eleCss);
+            if (!canvas.getContext) return;
+            canvas.width = "70";
+            canvas.height = "70";
+            let ctx = canvas.getContext('2d');
+
+            function circle() {
+                ctx.strokeStyle = "rgba(50,150,150,.8)";
+                ctx.clearRect(0, 0, 70, 70);
+                ctx.beginPath();
+                ctx.arc(35, 35, 35, 35, Math.PI * 15);
+                ctx.fill();
+                ctx.stroke();
+                ctx.closePath();
+
+                ctx.beginPath();
+                ctx.arc(35, 35, 25, 25, Math.PI * 15);
+                ctx.stroke();
+                ctx.closePath();
+
+                ctx.beginPath();
+                ctx.arc(35, 35, 15, 15, Math.PI * 10);
+                ctx.stroke();
+                ctx.closePath();
+
+            }
+
+            function semicircle(leftORright) {
+                ctx.clearRect(0, 0, 70, 70);
+
+                ctx.fillStyle = 'rgb(55,200,200)';
+                ctx.beginPath();
+
+                if (leftORright === 'left') {
+                    ctx.arc(0, 35, 35, 35, Math.PI * 70);
+                } else if ('right') {
+                    ctx.arc(70, 35, 35, 35, Math.PI * 70);
+                }
+
+                ctx.fill();
+            }
+            semicircle('left');
+            semicircle('right');
+            circle()
+
+        }
+
+        movable_icon_menu('.menu-icon[author=pcy]');
+    </script>
+</body>
+
+</html>
