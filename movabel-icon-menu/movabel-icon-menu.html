@@ -18,8 +18,9 @@
             let eleCss = {
                 position: 'absolute',
                 top: '0',
-                left: '0',
-                margin: "0"
+                margin: "0",
+                left: 'calc(100vw - 35px)',
+                clip: 'rect(0,35px,70px,0)'
             }
 
             let qele = document.querySelector(ele);
@@ -27,49 +28,55 @@
             qele.append(canvas);
             $(qele).css(eleCss);
             if (!canvas.getContext) return;
-            canvas.width = "70";
-            canvas.height = "70";
+            canvas.width = "72";
+            canvas.height = "72";
             let ctx = canvas.getContext('2d');
 
             function circle() {
+                ctx.fillStyle = 'rgba(80,180,180,.5)'
                 ctx.strokeStyle = "rgba(50,150,150,.8)";
                 ctx.clearRect(0, 0, 70, 70);
                 ctx.beginPath();
-                ctx.arc(35, 35, 35, 35, Math.PI * 15);
+                ctx.arc(35, 35, 35, 35, Math.PI * 35);
                 ctx.fill();
                 ctx.stroke();
                 ctx.closePath();
 
                 ctx.beginPath();
-                ctx.arc(35, 35, 25, 25, Math.PI * 15);
+                ctx.arc(35, 35, 25, 25, Math.PI * 25);
                 ctx.stroke();
                 ctx.closePath();
 
                 ctx.beginPath();
-                ctx.arc(35, 35, 15, 15, Math.PI * 10);
+                ctx.arc(35, 35, 15, 15, Math.PI * 15);
                 ctx.stroke();
                 ctx.closePath();
 
             }
-
-            function semicircle(leftORright) {
-                ctx.clearRect(0, 0, 70, 70);
-
-                ctx.fillStyle = 'rgb(55,200,200)';
-                ctx.beginPath();
-
-                if (leftORright === 'left') {
-                    ctx.arc(0, 35, 35, 35, Math.PI * 70);
-                } else if ('right') {
-                    ctx.arc(70, 35, 35, 35, Math.PI * 70);
-                }
-
-                ctx.fill();
-            }
-            semicircle('left');
-            semicircle('right');
-            circle()
-
+            circle();
+            $(canvas).on('mousedown', function() {
+                $(canvas).parent().css('clip', 'auto');
+                $(document).on('mousemove.drag', function(e) {
+                    $(canvas).parent().offset({
+                        left: e.pageX - 35,
+                        top: e.pageY - 35,
+                    })
+                }).on('mouseup', function() {
+                    let ctx_X = $(canvas).parent().offset().left;
+                    let doc_W = $(document).width();
+                    if (doc_W / 2 >= ctx_X) {
+                        $(canvas).parent().css({
+                            left: '-35px'
+                        })
+                    } else {
+                        $(canvas).parent().css({
+                            left: 'calc(100vw - 35px)',
+                            clip: 'rect(0,35px,70px,0)'
+                        });
+                    }
+                    $(this).off('mousemove.drag')
+                })
+            })
         }
 
         movable_icon_menu('.menu-icon[author=pcy]');
