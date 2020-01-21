@@ -17,7 +17,7 @@
         function movable_icon_menu(ele) {
             let eleCss = {
                 position: 'absolute',
-                top: '0',
+                top: '10',
                 margin: "0",
                 left: 'calc(100vw - 35px)',
                 clip: 'rect(0,35px,70px,0)'
@@ -32,7 +32,16 @@
             canvas.height = "72";
             let ctx = canvas.getContext('2d');
 
-            function circle() {
+            // 画菜单栏中的圆线
+            function strokeCircle(x1, x2, y1, y2, r) {
+                ctx.beginPath();
+                ctx.arc(x1, x2, y1, y2, r);
+                ctx.stroke();
+                ctx.closePath();
+            }
+
+            // 菜单样式
+            (function circle() {
                 ctx.fillStyle = 'rgba(80,180,180,.5)'
                 ctx.strokeStyle = "rgba(50,150,150,.8)";
                 ctx.clearRect(0, 0, 70, 70);
@@ -41,40 +50,29 @@
                 ctx.fill();
                 ctx.stroke();
                 ctx.closePath();
+                strokeCircle(35, 35, 25, 25, Math.PI * 25);
+                strokeCircle(35, 35, 15, 15, Math.PI * 15)
+            })();
 
-                ctx.beginPath();
-                ctx.arc(35, 35, 25, 25, Math.PI * 25);
-                ctx.stroke();
-                ctx.closePath();
-
-                ctx.beginPath();
-                ctx.arc(35, 35, 15, 15, Math.PI * 15);
-                ctx.stroke();
-                ctx.closePath();
-
-            }
-            circle();
-            $(canvas).on('mousedown', function() {
-                $(canvas).parent().css('clip', 'auto');
+            $(canvas).parent().mousedown(function() {
                 $(document).on('mousemove.drag', function(e) {
-                    $(canvas).parent().offset({
+                    //在移动过程中,图标会反复重绘
+                    $(canvas).parent().css({
+                        clip: 'auto',
                         left: e.pageX - 35,
                         top: e.pageY - 35,
                     })
-                }).on('mouseup', function() {
-                    let ctx_X = $(canvas).parent().offset().left;
-                    let doc_W = $(document).width();
-                    if (doc_W / 2 >= ctx_X) {
-                        $(canvas).parent().css({
-                            left: '-35px'
-                        })
-                    } else {
-                        $(canvas).parent().css({
-                            left: 'calc(100vw - 35px)',
-                            clip: 'rect(0,35px,70px,0)'
-                        });
-                    }
-                    $(this).off('mousemove.drag')
+                }).on('mouseup', function(e) {
+                    $(canvas).parent().css({
+                        left: 'calc(100vw - 35px)',
+                        clip: 'rect(0,35px,70px,0)'
+                    });
+                    $(document).off('mousemove.drag')
+                })
+            }).on('mouseenter', function() {
+                $(this).css({
+                    clip: 'auto',
+                    left: 'calc(100vw - 75px)',
                 })
             })
         }
