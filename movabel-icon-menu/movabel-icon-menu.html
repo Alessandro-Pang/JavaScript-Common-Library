@@ -19,8 +19,8 @@
                 position: 'absolute',
                 top: '10',
                 margin: "0",
-                left: 'calc(100vw - 35px)',
-                clip: 'rect(0,35px,70px,0)'
+                //left: 'calc(100vw - 35px)',
+                //clip: 'rect(0,35px,70px,0)'
             }
 
             let qele = document.querySelector(ele);
@@ -29,7 +29,7 @@
             $(qele).css(eleCss);
             if (!canvas.getContext) return;
             canvas.width = "72";
-            canvas.height = "72";
+            canvas.height = "230";
             let ctx = canvas.getContext('2d');
 
             // 画菜单栏中的圆线
@@ -54,27 +54,51 @@
                 strokeCircle(35, 35, 15, 15, Math.PI * 15)
             })();
 
-            $(canvas).parent().mousedown(function() {
-                $(document).on('mousemove.drag', function(e) {
-                    //在移动过程中,图标会反复重绘
-                    $(canvas).parent().css({
-                        clip: 'auto',
-                        left: e.pageX - 35,
-                        top: e.pageY - 35,
-                    })
-                }).on('mouseup', function(e) {
-                    $(canvas).parent().css({
-                        left: 'calc(100vw - 35px)',
-                        clip: 'rect(0,35px,70px,0)'
-                    });
-                    $(document).off('mousemove.drag')
+            function menu_rect(x, y, w, h, text, color1, color2) {
+                ctx.beginPath();
+                ctx.rect(x, y, w, h);
+                ctx.fillStyle = color1 ? color1 : 'rgba(0,200,200,.8)';
+                ctx.strokeStyle = color2 ? color2 : 'rgba(100,100,80,.8)';
+                ctx.fill();
+                ctx.stroke();
+                if (text) {
+                    ctx.fillStyle = 'black';
+                    ctx.fillText(text, x + 20, y + 20);
+                }
+                ctx.closePath();
+            }
+
+            menu_rect(0, 71, 70, 150);
+            menu_rect(0, 71, 70, 30, '上一步')
+            menu_rect(0, 101, 70, 30, '下一步')
+            menu_rect(0, 131, 70, 30, '还 原')
+            menu_rect(0, 161, 70, 30, '导 航')
+            menu_rect(0, 191, 70, 30, '关 闭')
+
+            $(canvas).mousemove(function() {
+                    console.log(ctx.isPointInPath(0, 71));
                 })
-            }).on('mouseenter', function() {
-                $(this).css({
-                    clip: 'auto',
-                    left: 'calc(100vw - 75px)',
-                })
-            })
+                // $(canvas).parent().mousedown(function() {
+                //     $(document).on('mousemove.drag', function(e) {
+                //         //在移动过程中,图标会反复重绘
+                //         $(canvas).parent().css({
+                //             clip: 'auto',
+                //             left: e.pageX - 35,
+                //             top: e.pageY - 35,
+                //         })
+                //     }).on('mouseup', function(e) {
+                //         $(canvas).parent().css({
+                //             left: 'calc(100vw - 35px)',
+                //             clip: 'rect(0,35px,70px,0)'
+                //         });
+                //         $(document).off('mousemove.drag')
+                //     })
+                // }).on('mouseenter', function() {
+                //     $(this).css({
+                //         clip: 'auto',
+                //         left: 'calc(100vw - 75px)',
+                //     })
+                // })
         }
 
         movable_icon_menu('.menu-icon[author=pcy]');
