@@ -11,17 +11,19 @@
 ## 插件文件示意
 
     * pop-up : 弹框插件
-
+    
     * scroll table ：轮播表插件  
-
+    
     * movable-icon-menu : 可移动的交互式菜单栏
+    
+    * js-wordexport / jquery-wordexport : 将html页面导出为文档
 
 ## 反馈
 
     *如果你在使用过程中发现了BUG、问题，欢迎反馈给我！*
-
+    
     * 邮箱：pcy1314@163.com
-
+    
     * 微信
-  
-    ![images](./images/weixin.jpg)
+
+![images](./images/weixin.jpg)
