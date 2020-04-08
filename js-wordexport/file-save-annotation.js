@@ -64,14 +64,24 @@ function fake_click(obj) {
     	该方法有在本功能中存在一些问题：
     		你点击按钮时，并不会响应导出/下载文件的功能 
 			但事件会触发且绑定，如果你将生成的元素(a标签)输出在文档上面，点击该元素(a标签)是可以导出的！
+
+	·-------------------------------------------------------------------------------------------------------·
+	|--------------------------------------Custom Event 代码实现---------------------------------------------|
+	·-------------------------------------------------------------------------------------------------------·
+
+		var event = new CustomEvent("cat",{
+			bubbles: true, 
+			cancelable: false, 
+			detail:"一些奇奇怪怪的数据"
+		});
+		
+		obj.addEventListener("cat", function(e) { 
+			alert('触发自定义事件-----'+e.detail+'------'+e.target)
+		});
+		
+		obj.dispatchEvent(event); 
     */
- 	
- 	// var event = new CustomEvent("cat",{ bubbles: true, cancelable: false, detail:"一些奇奇怪怪的数据"});
-	// obj.addEventListener("cat", function(e) { 
-	// 	alert('触发自定义事件-----'+e.detail+'------'+e.target)
-	// });
-	
-	// obj.dispatchEvent(event); 
+
 }
  
 
@@ -120,6 +130,16 @@ function export_raw(name, data) {
 	    	SVG - 参阅 http://www.w3.org/2000/svg
 	   		XBL - 参阅 http://www.mozilla.org/xbl
 	   		XUL - 参阅 http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul
+
+	   	注：document.createElementNS 一般用于Xml中，需要指定命名空间,
+	   		实际在 DOM 中,可以直接使用 document.createElement 替代该方法！
+
+	   	document.createElementNS与document.createElement类似，也用于创建标签节点，
+	   		只是它需要一个额外的命名空间URI作为参数，只有使用名字空间的XML文档才会使用该方法，
+	   		此方法用于创建 XML 元素，此命名空间用于标识该节点属于哪种XML类型。
+
+	   	一个xml文档可能包含多个软件模块的元素和属性，在不同软件模块中使用相同名称的元素或属性，
+	   		可能会导致识别和冲突问题，而xml命名空间可以解决该问题。
 	*/		
 	var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
 
