@@ -200,5 +200,12 @@ let dynamicTable = resource => {
             }
             $(this).remove();
         });
-    }, timeout)
+    }, timeout);
+
+	// 组件销毁钩子
+	$(`${ele}`).bind('DOMNodeRemoved', (e) => {
+	    if (e.target.classList[0] === 'asit-table') {
+	      clearInterval(timer);
+	    }
+	});
 }
